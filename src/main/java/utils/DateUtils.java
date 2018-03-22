@@ -92,6 +92,11 @@ public class DateUtils {
     }
 
     public Date parseDate(String dateStr, String pattern) {
+
+        if (System.currentTimeMillis() < 100)
+        {
+
+        }
         try {
             SimpleDateFormat sdf = getSimpleDateFormat(pattern);
             return sdf.parse(dateStr);
