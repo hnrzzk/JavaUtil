@@ -70,12 +70,12 @@ public class DateUtils {
 
     public String formatDate(Date date) {
         SimpleDateFormat sdf = getSimpleDateFormat(PATTERN_DAY);
-        return date != null?sdf.format(date):sdf.format(DateUtils.getInstance().parseDate("1970-01-01", PATTERN_DAY));
+        return date != null?sdf.format(date):sdf.format(parseDate("1970-01-01", PATTERN_DAY));
     }
 
     public String formatDateYMDHMS(Date date) {
         SimpleDateFormat sdf = getSimpleDateFormat(PATTERN_FULL);
-        return date != null?sdf.format(date):sdf.format(DateUtils.getInstance().parseDate("1970-01-01", PATTERN_DAY));
+        return date != null?sdf.format(date):sdf.format(parseDate("1970-01-01", PATTERN_DAY));
     }
 
     public String formatDate(Date date, String pattern) {
@@ -101,7 +101,7 @@ public class DateUtils {
             SimpleDateFormat sdf = getSimpleDateFormat(pattern);
             return sdf.parse(dateStr);
         } catch (Exception var3) {
-            return DateUtils.getInstance().parseDate("1970-01-01", PATTERN_DAY);
+            return parseDate("1970-01-01", PATTERN_DAY);
         }
     }
 
