@@ -1,6 +1,7 @@
 package utils;
 
-import java.sql.Date;
+import java.util.Date;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
@@ -74,11 +75,17 @@ public class TimeUtils {
         return date1Year == date2Year && date1WeekOfYear == date2WeekOfYear;
     }
 
-    public String getDataFormatString(Date date, String formatString)
+    public String getDateFormatString(Date date, String formatString)
     {
         SimpleDateFormat sdf = new SimpleDateFormat(formatString);
         return sdf.format(date);
     }
+
+    public Date getDateByString(String date, String formatString) throws ParseException {
+        SimpleDateFormat sdf = new SimpleDateFormat(formatString);
+        return sdf.parse(date);
+    }
+
 
     private static Calendar getCalendarInstance()
     {
