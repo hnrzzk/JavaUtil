@@ -1,6 +1,7 @@
 package utils;
 
 import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 /**
@@ -71,6 +72,12 @@ public class TimeUtils {
         int date2Year = date2.get(Calendar.YEAR);
         int date2WeekOfYear = date2.get(Calendar.WEEK_OF_YEAR);
         return date1Year == date2Year && date1WeekOfYear == date2WeekOfYear;
+    }
+
+    public String getDataFormatString(Date date, String formatString)
+    {
+        SimpleDateFormat sdf = new SimpleDateFormat(formatString);
+        return sdf.format(date);
     }
 
     private static Calendar getCalendarInstance()
