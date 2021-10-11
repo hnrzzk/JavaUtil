@@ -16,14 +16,14 @@ public class TimeUtils {
     public static final long DAY_TOTAL_MILLISECOND	=   24L * HOUR_TOTAL_MILLISECOND;
     public static final long WEEK_TOTAL_MILLISECOND	=   7L * DAY_TOTAL_MILLISECOND;
 
-    public static final String PATTERN_DAY = "yyyy-MM-dd";
-    public static final String PATTERN_MONRH_DAY = "MM-dd";
+    public static final String PATTERN_YYYY_MM_DD = "yyyy-MM-dd";
+    public static final String PATTERN_MM_DD = "MM-dd";
     public static final String PATTERN_YYYYMMDD = "yyyyMMdd";
     public static final String PATTERN_YYYYMM = "yyyyMM";
     public static final String PATTERN_FULL = "yyyy-MM-dd HH:mm:ss";
     public static final String PATTERN_YYYYMMDDHHMMSS = "yyyyMMddHHmmss";
-    public static final String MINUTE_MIN = " 00:00:00";
-    public static final String MINUTE_MAX = " 23:59:59";
+    public static final String TIME_MIN = " 00:00:00";
+    public static final String TIME_MAX = " 23:59:59";
 
     private TimeUtils() {}
 
@@ -37,41 +37,32 @@ public class TimeUtils {
     }
 
 
-    public boolean isSameDay(long date1, long date2)
-    {
-        return date1 / DAY_TOTAL_MILLISECOND == date2 /DAY_TOTAL_MILLISECOND;
-    }
-    public boolean isSameDay(Date date1, Date date2)
-    {
-        return isSameDay(date1.getTime(), date2.getTime());
-    }
-    public boolean isSampDay(Calendar date1, Calendar date2)
-    {
-        return isSameDay(date1.getTimeInMillis(), date2.getTimeInMillis());
+    public boolean isLastTimeOfDay(Long now , Calendar calendar) {
+        calendar.setTimeInMillis(now);
+        return calendar.get(Calendar.HOUR_OF_DAY) == 23
+                && calendar.get(Calendar.MINUTE) == 59;
     }
 
-    public boolean isSameWeek(long date1, long date2)
-    {
-        Calendar calendar1 = Calendar.getInstance();
-        calendar1.setTimeInMillis(date1);
-        Calendar calendar2 = Calendar.getInstance();
-        calendar2.setTimeInMillis(date2);
-        return isSameWeek(calendar1, calendar2);
+    public boolean isSameDay(Long time1 , Long time2, Calendar calendar) {
+        calendar.setTimeInMillis(time1);
+        int time1Year = calendar.get(Calendar.YEAR);
+        int time1DayOfYear = calendar.get(Calendar.DAY_OF_YEAR);
+
+        calendar.setTimeInMillis(time2);
+        int time2Year = calendar.get(Calendar.YEAR);
+        int time2DayOfYear = calendar.get(Calendar.DAY_OF_YEAR);
+        return time1Year == time2Year && time1DayOfYear == time2DayOfYear;
     }
-    public boolean isSameWeek(Date date1, Date date2)
+
+    public boolean isSameWeek(long date1, long date2, Calendar calendar)
     {
-        Calendar calendar1 = Calendar.getInstance();
-        calendar1.setTime(date1);
-        Calendar calendar2 = Calendar.getInstance();
-        calendar1.setTime(date2);
-        return isSameWeek(calendar1, calendar2);
-    }
-    public boolean isSameWeek(Calendar date1, Calendar date2)
-    {
-        int date1Year = date1.get(Calendar.YEAR);
-        int date1WeekOfYear = date1.get(Calendar.WEEK_OF_YEAR);
-        int date2Year = date2.get(Calendar.YEAR);
-        int date2WeekOfYear = date2.get(Calendar.WEEK_OF_YEAR);
+        calendar.setTimeInMillis(date1);
+        int date1Year = calendar.get(Calendar.YEAR);
+        int date1WeekOfYear = calendar.get(Calendar.WEEK_OF_YEAR);
+
+        calendar.setTimeInMillis(date2);
+        int date2Year = calendar.get(Calendar.YEAR);
+        int date2WeekOfYear = calendar.get(Calendar.WEEK_OF_YEAR);
         return date1Year == date2Year && date1WeekOfYear == date2WeekOfYear;
     }
 
@@ -84,12 +75,5 @@ public class TimeUtils {
     public Date getDateByString(String date, String formatString) throws ParseException {
         SimpleDateFormat sdf = new SimpleDateFormat(formatString);
         return sdf.parse(date);
-    }
-
-
-    private static Calendar getCalendarInstance()
-    {
-        Calendar calendar =  Calendar.getInstance();
-        return calendar;
     }
 }
